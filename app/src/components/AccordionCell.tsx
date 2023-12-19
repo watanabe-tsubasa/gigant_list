@@ -1,15 +1,18 @@
-import { AccordionPanel, Box, Divider } from "@chakra-ui/react";
+import { AccordionPanel, Box } from "@chakra-ui/react";
 
-export const AccordionCell = () => {
+interface AccordionCellProps {
+  id: string;
+  category: number;
+  isOpen: boolean;
+}
+
+export const AccordionCell: React.FC<AccordionCellProps> = ({id, category, isOpen}) => {
+
   return (
-    <Box>
-      <AccordionPanel pb={4}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+    <Box borderBottom={isOpen ? '1px':'0px'} borderColor='gray.200'>
+      <AccordionPanel p={4}>
+        {`${id}: ${category.toString()}`}
       </AccordionPanel>
-      <Divider />
     </Box>
   )
-}
+};
