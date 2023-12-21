@@ -1,30 +1,18 @@
-export const categoryData = {
-  '1000100': 0,
-  '1000101': 0,
-  '1000102': 1,
-  '1000103': 0,
-  '1000104': 0,
-  '1000105': 0,
-  '1000106': 0,
-  '1000107': 2,
-  '1000108': 0,
-  '1000109': 0,
-  '1000110': 0,
-  '1000111': 0,
-  '1000112': 3,
-  '1000113': 0,
-  '1000114': 0,
-  '1000115': 0,
-  '1000116': 0,
-  '1000117': 1,
-  '1000118': 0,
-  '1000119': 0,
-  '1000120': 1,
-  '1000121': 0,
-  '1000122': 0,
-  '1000123': 0,
-  '1000124': 0,
-};
+import { CategoryDataType } from "../contexts/types";
+
+function generateRandomCategoryData(numItems: number): CategoryDataType {
+  const baseKey = 1000100;
+  const data: CategoryDataType = {};
+  for (let i = 0; i < numItems; i++) {
+    const key = (baseKey + i).toString();
+    const value = Math.floor(Math.random() * 4); // 0, 1, 2, 3 のランダムな値を生成
+    data[key] = value;
+  }
+  return data;
+}
+
+// 例: 10個のアイテムを生成する
+export const categoryData = generateRandomCategoryData(3);
 
 export const divisionData = {
   1: '冷蔵温度帯',

@@ -1,21 +1,31 @@
 import { AccordionButton, AccordionIcon, AccordionItem, Box, HStack, Text } from "@chakra-ui/react";
 import { AccordionCell } from "./AccordionCell";
-import { useState } from "react";
 import { useDataContext } from "../contexts/useDataContext";
 import { InputField } from "./InputField";
-
+import { useEffect } from "react";
 interface CommonAccordionProps {
   id: string;
   division: string;
 }
 
-export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division}) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division, refUpdateCategory}) => {
+  const { categories, CategoryDispatch } = useDataContext()
   const onClickAccordionButton = () => {
-    setIsOpen(current => (!current));
+    console.log(id)
+    console.log(refUpdateCategory.current)
+    Object.entries(refUpdateCategory.current).forEach(([category, selectedDivision]) => {
+      CategoryDispatch({
+        type: 'checked',
+        category: category,
+        selectedDivision: selectedDivision
+      });
+    })
+    refUpdateCategory.current = {};
   }
- 
-  const { categories } = useDataContext();
+  useEffect(() => {
+    console.log(categories)
+  },[categories])
+  
   const categoriesArray = Object.entries(categories).map(([category, selectedDivision]) => ({
     category: category,
     selectedDivision: selectedDivision
@@ -38,7 +48,7 @@ export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division}) 
                  category={elem.category}
                  divId={id}
                  selectedDivision={elem.selectedDivision}
-                 isOpen={isOpen}
+                 refUpdateCategory={refUpdateCategory}
                 />
       })}
     </AccordionItem>
