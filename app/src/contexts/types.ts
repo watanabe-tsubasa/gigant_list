@@ -12,7 +12,11 @@ export interface CategoryDataType {
 }
 
 export type CategoryAction =
-  | { type: 'checked' }
+  | { 
+      type: 'checked', 
+      category: string, 
+      selectedDivision: number, 
+    }
   | { type: 'fetch' }
   | { type: 'unmount' };
 

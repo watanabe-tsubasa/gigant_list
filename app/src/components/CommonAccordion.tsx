@@ -16,9 +16,9 @@ export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division}) 
   }
  
   const { categories } = useDataContext();
-  const categoriesArray = Object.entries(categories).map(([id, category]) => ({
-    id: id,
-    category: category
+  const categoriesArray = Object.entries(categories).map(([category, selectedDivision]) => ({
+    category: category,
+    selectedDivision: selectedDivision
   }));
 
   return(
@@ -33,8 +33,13 @@ export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division}) 
         </HStack>
       </Box>
       {categoriesArray.map(elem => {
-        const { id, category } = elem;
-        return <AccordionCell key={id} id={id} category={category} isOpen={isOpen} />
+        return <AccordionCell
+                 key={elem.category}
+                 category={elem.category}
+                 divId={id}
+                 selectedDivision={elem.selectedDivision}
+                 isOpen={isOpen}
+                />
       })}
     </AccordionItem>
   )
