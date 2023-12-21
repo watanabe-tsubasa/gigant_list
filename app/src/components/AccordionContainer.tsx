@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 export const AccordionContainer = () => {
   const { divisions } = useDataContext();
-  const refUpdateCategory = useRef({});
+  const updateCategoryRef = useRef({});
   const divisionArray = Object.entries(divisions).map(([id, division]) => ({
     id: id,
     division: division
@@ -13,7 +13,7 @@ export const AccordionContainer = () => {
   return(
     <Accordion>
       {divisionArray.map(({ id, division }) => (
-        <CommonAccordion key={id} id={id} division={division} refUpdateCategory={refUpdateCategory} />
+        <CommonAccordion key={id} id={id} division={division} updateCategoryRef={updateCategoryRef} />
       ))}
     </Accordion>
   )

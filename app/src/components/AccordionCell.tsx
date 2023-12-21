@@ -1,20 +1,20 @@
 import { AccordionPanel, Box, Button, HStack, Spacer, Text } from "@chakra-ui/react";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 interface AccordionCellProps {
   category: string;
   divId: string;
   selectedDivision: number;
-  refUpdateCategory: React.Dispatch<SetStateAction<{}>>;
+  updateCategoryRef: React.MutableRefObject<{[key: string]: number}>;
 }
 
-export const AccordionCell: React.FC<AccordionCellProps> = ({category, divId, selectedDivision, refUpdateCategory }) => {
+export const AccordionCell: React.FC<AccordionCellProps> = ({category, divId, selectedDivision, updateCategoryRef }) => {
   return (
     <Box outline='0.5px solid'outlineColor='gray.200'>
       <AccordionPanel p={4}>
         <HStack>
           <Text>{category}</Text>
           <Spacer />
-          <DivSetButton category={category} divId={divId} selectedDivision={selectedDivision} refUpdateCategory={refUpdateCategory} />
+          <DivSetButton category={category} divId={divId} selectedDivision={selectedDivision} updateCategoryRef={updateCategoryRef} />
           <Spacer />
         </HStack>
       </AccordionPanel>
@@ -26,10 +26,10 @@ interface DivSetButtonProps {
   category: string;
   divId: string;
   selectedDivision: number;
-  refUpdateCategory: React.Dispatch<SetStateAction<{}>>;
+  updateCategoryRef: React.MutableRefObject<{[key: string]: number}>;
 }
 
-const DivSetButton: React.FC<DivSetButtonProps> = ({ category, divId, selectedDivision, refUpdateCategory }) => {
+const DivSetButton: React.FC<DivSetButtonProps> = ({ category, divId, selectedDivision, updateCategoryRef }) => {
 
   const [divisionState, setDivisionState] = useState(selectedDivision);
   const result = (divId: string,divisionState: string): 'notSetteled' | 'thisCategory' | 'otherCategory' => {
@@ -75,19 +75,19 @@ const DivSetButton: React.FC<DivSetButtonProps> = ({ category, divId, selectedDi
     switch (res) {
       case 'thisCategory':
         setDivisionState(0)
-        refUpdateCategory.current = {
-          ...refUpdateCategory.current,
+        updateCategoryRef.current = {
+          ...updateCategoryRef.current,
           [category]: 0
         };
-        console.log(refUpdateCategory.current)
+        console.log(updateCategoryRef.current)
         break
       case 'notSetteled':
         setDivisionState(Number(divId));
-        refUpdateCategory.current = {
-          ...refUpdateCategory.current,
+        updateCategoryRef.current = {
+          ...updateCategoryRef.current,
           [category]: Number(divId)
         }
-        console.log(refUpdateCategory.current)
+        console.log(updateCategoryRef.current)
         break
       default:
         return

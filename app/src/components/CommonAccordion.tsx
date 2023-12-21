@@ -6,21 +6,22 @@ import { useEffect } from "react";
 interface CommonAccordionProps {
   id: string;
   division: string;
+  updateCategoryRef: React.MutableRefObject<{[key: string]: number}>;
 }
 
-export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division, refUpdateCategory}) => {
+export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division, updateCategoryRef}) => {
   const { categories, CategoryDispatch } = useDataContext()
   const onClickAccordionButton = () => {
     console.log(id)
-    console.log(refUpdateCategory.current)
-    Object.entries(refUpdateCategory.current).forEach(([category, selectedDivision]) => {
+    console.log(updateCategoryRef.current)
+    Object.entries(updateCategoryRef.current).forEach(([category, selectedDivision]) => {
       CategoryDispatch({
         type: 'checked',
         category: category,
         selectedDivision: selectedDivision
       });
     })
-    refUpdateCategory.current = {};
+    updateCategoryRef.current = {};
   }
   useEffect(() => {
     console.log(categories)
@@ -48,7 +49,7 @@ export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division, r
                  category={elem.category}
                  divId={id}
                  selectedDivision={elem.selectedDivision}
-                 refUpdateCategory={refUpdateCategory}
+                 updateCategoryRef={updateCategoryRef}
                 />
       })}
     </AccordionItem>
