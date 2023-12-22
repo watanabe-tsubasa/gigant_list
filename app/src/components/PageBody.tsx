@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDataContext } from "../contexts/useDataContext";
 import { AccordionContainer } from "./AccordionContainer";
 import { Box, Flex, Spinner } from "@chakra-ui/react";
@@ -12,7 +12,7 @@ export const PageBody = () => {
     DivisionDispatch({ type: 'fetch' });
     setIsLoading(false); 
   };
-
+  const categoryUpdateRef = useRef(null);
   useEffect(() => {
     const timer = setTimeout(() => {
       dataFetcher();
@@ -35,9 +35,9 @@ export const PageBody = () => {
     :
     <Box h='100vH' w='80%'>
       <Box pb={4}>
-        <AccordionContainer /> 
+        <AccordionContainer categoryUpdateRef={categoryUpdateRef} /> 
       </Box>
-      <RegisterButton />
+      <RegisterButton categoryUpdateRef={categoryUpdateRef} />
     </Box>
   );
 }

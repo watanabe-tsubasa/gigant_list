@@ -6,10 +6,10 @@ import { InputField } from "./atoms/InputField";
 interface CommonAccordionProps {
   id: string;
   division: string;
-
+  categoryUpdateRef: React.MutableRefObject<{[key: string]: number} | null>;
 }
 
-export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division}) => {
+export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division, categoryUpdateRef}) => {
   const { categories } = useDataContext();
 
   const categoriesArray = Object.entries(categories).map(([category, selectedDivision]) => ({
@@ -34,6 +34,7 @@ export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division}) 
                  category={elem.category}
                  divId={id}
                  selectedDivision={elem.selectedDivision}
+                 categoryUpdateRef={categoryUpdateRef}
                 />
       })}
     </AccordionItem>

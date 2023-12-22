@@ -7,6 +7,11 @@ export interface DataContextType {
   DivisionDispatch: React.Dispatch<DivisionAction>;
 }
 
+export interface CategoryDiffContextType {
+  categoryDiff?: CategoryDataType | null;
+  CategoryDiffDispatch: React.Dispatch<CategoryAction>;
+}
+
 export interface CategoryDataType {
   [key: string]: number;
 }
