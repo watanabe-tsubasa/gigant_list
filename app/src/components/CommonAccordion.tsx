@@ -1,32 +1,17 @@
 import { AccordionButton, AccordionIcon, AccordionItem, Box, HStack, Text } from "@chakra-ui/react";
 import { AccordionCell } from "./AccordionCell";
 import { useDataContext } from "../contexts/useDataContext";
-import { InputField } from "./InputField";
-import { useEffect } from "react";
+import { InputField } from "./atoms/InputField";
+
 interface CommonAccordionProps {
   id: string;
   division: string;
-  updateCategoryRef: React.MutableRefObject<{[key: string]: number}>;
+
 }
 
-export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division, updateCategoryRef}) => {
-  const { categories, CategoryDispatch } = useDataContext()
-  const onClickAccordionButton = () => {
-    console.log(id)
-    console.log(updateCategoryRef.current)
-    Object.entries(updateCategoryRef.current).forEach(([category, selectedDivision]) => {
-      CategoryDispatch({
-        type: 'checked',
-        category: category,
-        selectedDivision: selectedDivision
-      });
-    })
-    updateCategoryRef.current = {};
-  }
-  useEffect(() => {
-    console.log(categories)
-  },[categories])
-  
+export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division}) => {
+  const { categories } = useDataContext();
+
   const categoriesArray = Object.entries(categories).map(([category, selectedDivision]) => ({
     category: category,
     selectedDivision: selectedDivision
@@ -37,7 +22,7 @@ export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division, u
       <Box p='4px'>
         <HStack>
           <InputField id={id} defaultValue={division} />
-          <AccordionButton onClick={onClickAccordionButton} w='50%' h='fit-content'>
+          <AccordionButton w='50%' h='fit-content'>
             <AccordionIcon />
             <Text>詳細</Text>
           </AccordionButton>
@@ -49,7 +34,6 @@ export const CommonAccordion: React.FC<CommonAccordionProps> = ({id, division, u
                  category={elem.category}
                  divId={id}
                  selectedDivision={elem.selectedDivision}
-                 updateCategoryRef={updateCategoryRef}
                 />
       })}
     </AccordionItem>

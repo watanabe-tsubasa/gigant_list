@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDataContext } from "../contexts/useDataContext";
 import { AccordionContainer } from "./AccordionContainer";
 import { Box, Flex, Spinner } from "@chakra-ui/react";
-import { RegisterButton } from "./ResisterButton";
+import { RegisterButton } from "./atoms/ResisterButton";
 
 export const PageBody = () => {
   const { CategoryDispatch, DivisionDispatch } = useDataContext();

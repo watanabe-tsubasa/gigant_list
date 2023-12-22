@@ -1,5 +1,5 @@
 import { Box, Button, Spinner } from "@chakra-ui/react";
-import { useCommonToast } from "../Hooks/useCommonToast"
+import { useCommonToast } from "../../Hooks/useCommonToast"
 import { useState } from "react";
 
 

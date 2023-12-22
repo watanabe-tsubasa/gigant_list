@@ -1,20 +1,26 @@
 import { AccordionPanel, Box, Button, HStack, Spacer, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useDataContext } from "../contexts/useDataContext";
+import { Suspense } from "react";
+
 interface AccordionCellProps {
   category: string;
   divId: string;
   selectedDivision: number;
-  updateCategoryRef: React.MutableRefObject<{[key: string]: number}>;
 }
 
-export const AccordionCell: React.FC<AccordionCellProps> = ({category, divId, selectedDivision, updateCategoryRef }) => {
+export const AccordionCell: React.FC<AccordionCellProps> = ({category, divId, selectedDivision }) => {
   return (
-    <Box outline='0.5px solid'outlineColor='gray.200'>
+    <Box
+     outline='0.5px solid'
+     outlineColor='gray.200'
+    >
       <AccordionPanel p={4}>
         <HStack>
           <Text>{category}</Text>
           <Spacer />
-          <DivSetButton category={category} divId={divId} selectedDivision={selectedDivision} updateCategoryRef={updateCategoryRef} />
+          <Suspense fallback={<p>...loading</p>}>
+            <DivSetButton category={category} divId={divId} selectedDivision={selectedDivision} />
+          </Suspense>
           <Spacer />
         </HStack>
       </AccordionPanel>
@@ -26,12 +32,11 @@ interface DivSetButtonProps {
   category: string;
   divId: string;
   selectedDivision: number;
-  updateCategoryRef: React.MutableRefObject<{[key: string]: number}>;
 }
 
-const DivSetButton: React.FC<DivSetButtonProps> = ({ category, divId, selectedDivision, updateCategoryRef }) => {
+const DivSetButton: React.FC<DivSetButtonProps> = ({ category, divId, selectedDivision }) => {
+  const { CategoryDispatch } = useDataContext();
 
-  const [divisionState, setDivisionState] = useState(selectedDivision);
   const result = (divId: string,divisionState: string): 'notSetteled' | 'thisCategory' | 'otherCategory' => {
     switch (divisionState) {
       case '0':
@@ -42,7 +47,7 @@ const DivSetButton: React.FC<DivSetButtonProps> = ({ category, divId, selectedDi
         return 'otherCategory'
     }
   };
-  const res = result(divId, divisionState.toString())
+  const res = result(divId, selectedDivision.toString())
   const isDisabled = () => {
     switch(res) {
       case 'otherCategory':
@@ -58,7 +63,7 @@ const DivSetButton: React.FC<DivSetButtonProps> = ({ category, divId, selectedDi
       case 'thisCategory':
         return '解除する'
       case 'otherCategory':
-        return '設定済み'
+        return `設定済み: ${selectedDivision.toString()}`
       default:
         throw Error('予期せぬ文字列です')
     }
@@ -74,20 +79,18 @@ const DivSetButton: React.FC<DivSetButtonProps> = ({ category, divId, selectedDi
   const onClick = () => {
     switch (res) {
       case 'thisCategory':
-        setDivisionState(0)
-        updateCategoryRef.current = {
-          ...updateCategoryRef.current,
-          [category]: 0
-        };
-        console.log(updateCategoryRef.current)
+        CategoryDispatch({
+          type: 'checked',
+          category: category,
+          selectedDivision: 0,
+        })
         break
       case 'notSetteled':
-        setDivisionState(Number(divId));
-        updateCategoryRef.current = {
-          ...updateCategoryRef.current,
-          [category]: Number(divId)
-        }
-        console.log(updateCategoryRef.current)
+        CategoryDispatch({
+          type:'checked',
+          category: category,
+          selectedDivision: Number(divId),
+        })
         break
       default:
         return

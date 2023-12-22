@@ -12,7 +12,7 @@ function generateRandomCategoryData(numItems: number): CategoryDataType {
 }
 
 // 例: 10個のアイテムを生成する
-export const categoryData = generateRandomCategoryData(3);
+export const categoryData = generateRandomCategoryData(1000);
 
 export const divisionData = {
   1: '冷蔵温度帯',

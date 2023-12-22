@@ -23,7 +23,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 const categoryReducer = (state: CategoryDataType | null, action: CategoryAction): CategoryDataType => {
   switch (action.type) {
     case 'checked':
-      return {
+      return {  
         ...state,
         [action.category]: action.selectedDivision
       };
